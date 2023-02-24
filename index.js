@@ -38,10 +38,15 @@ async function startProgram(){
         }
         else if(answers.choiceInput === "Finish building Team"){
             console.log(`Thank you for the information, I will finish building the Team Profile Website`);
-            console.log(team);
+            return team;
         }
     })
+
+
+    let htmlDoc = render(team);
+    await fs.writeFile(outputPath, htmlDoc);
 }
+
 
 // Question sets for employee types
 let managerQuestions = [
