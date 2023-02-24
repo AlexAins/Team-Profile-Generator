@@ -145,15 +145,3 @@ async function internQuestList(){
         startProgram();
     })
 }
-
-
-
-//     team.push(new Manager("John", 1, "john@test", 101))
-//     team.push(new Engineer("Tod", 2, "tod@test", "testTod"))
-//     team.push(new Intern("Emily", 3, "emily@test", "Exeter"))
-
-//     let htmlDoc = render(team);
-
-//     await fs.writeFile(outputPath, htmlDoc);
-
-
