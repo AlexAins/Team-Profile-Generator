@@ -37,7 +37,8 @@ async function startProgram(){
             internQuestList();
         }
         else if(answers.choiceInput === "Finish building Team"){
-            console.log(`Thank you for the information, I will finish building the Team Profile Website`)
+            console.log(`Thank you for the information, I will finish building the Team Profile Website`);
+            console.log(team);
         }
     })
 }
@@ -117,7 +118,7 @@ async function managerQuestList(){
     const answers = await inquirer
     .prompt(managerQuestions)
     .then((answers) => {
-        team.push(new Intern(answers.managerName, answers.managerID, answers.managerEmail, answers.managerGitHub));
+        team.push(new Manager(answers.managerName, answers.managerID, answers.managerEmail, answers.managerOfficeNumber));
         startProgram();
     })
 }
@@ -135,7 +136,7 @@ async function internQuestList(){
     const answers = await inquirer
     .prompt(internQuestions)
     .then((answers) => {
-        team.push(new Intern(answers.internName, answers.internID, answers.internEmail, answers.internGitHub));
+        team.push(new Intern(answers.internName, answers.internID, answers.internEmail, answers.internSchool));
         startProgram();
     })
 }
