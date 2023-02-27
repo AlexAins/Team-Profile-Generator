@@ -10,44 +10,6 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./src/page-template.js");
 
-// Creating empty array for team
-let team = [];
-
-startProgram()
-
-// Function to start adding team members
-async function startProgram(){
-    const answers = await inquirer
-    .prompt([
-        {
-            type: "list",
-            name: "choiceInput",
-            message: "Please select what you would like to do",
-            choices: ["Add a Manager", "Add an Engineer", "Add an Intern", new inquirer.Separator(),"Finish building Team"]
-        }
-    ])
-    .then((answers) => {
-        if(answers.choiceInput === "Add a Manager"){
-            managerQuestList();
-        }
-        else if(answers.choiceInput === "Add an Engineer"){
-            engineerQuestList();
-        }
-        else if(answers.choiceInput === "Add an Intern"){
-            internQuestList();
-        }
-        else if(answers.choiceInput === "Finish building Team"){
-            console.log(`Thank you for the information, I will finish building the Team Profile Website`);
-            return team;
-        }
-    })
-
-
-    let htmlDoc = render(team);
-    await fs.writeFile(outputPath, htmlDoc);
-}
-
-
 // Question sets for employee types
 let managerQuestions = [
     {
@@ -118,22 +80,59 @@ let internQuestions = [
     }
 ]
 
-// Functions to run employee type questions
-async function managerQuestList(){
+// Creating empty array for team
+let team = [];
+
+startProgram()
+
+async function startProgram(){
     const answers = await inquirer
     .prompt(managerQuestions)
     .then((answers) => {
         team.push(new Manager(answers.managerName, answers.managerID, answers.managerEmail, answers.managerOfficeNumber));
-        startProgram();
+        mainProgram();
     })
 }
 
+// Function to start adding team members
+async function mainProgram(){
+    const answers = await inquirer
+    .prompt([
+        {
+            type: "list",
+            name: "choiceInput",
+            message: "Please select what you would like to do",
+            choices: ["Add an Engineer", "Add an Intern", new inquirer.Separator(),"Finish building Team"]
+        }
+    ])
+    .then((answers) => {
+        if(answers.choiceInput === "Add an Engineer"){
+            engineerQuestList();
+        }
+        else if(answers.choiceInput === "Add an Intern"){
+            internQuestList();
+        }
+        else if(answers.choiceInput === "Finish building Team"){
+            console.log(`Thank you for the information, I will finish building the Team Profile Website`);
+            return team;
+        }
+    })
+
+
+    let htmlDoc = render(team);
+    await fs.writeFile(outputPath, htmlDoc);
+}
+
+
+
+
+// Functions to run employee type questions
 async function engineerQuestList(){
     const answers = await inquirer
     .prompt(engineerQuestions)
     .then((answers) => {
         team.push(new Engineer(answers.engineerName, answers.engineerID, answers.engineerEmail, answers.engineerGitHub));
-        startProgram();
+        mainProgram();
     })
 }
 
@@ -142,6 +141,6 @@ async function internQuestList(){
     .prompt(internQuestions)
     .then((answers) => {
         team.push(new Intern(answers.internName, answers.internID, answers.internEmail, answers.internSchool));
-        startProgram();
+        mainProgram();
     })
 }
